@@ -82,6 +82,11 @@ src
 ├── ····
 ```
 
+## 🔍 参考链接
+https://github.com/SunSeekerX/upushy-server
+https://github.com/kentloog/nestjs-sequelize-typescript
+https://juejin.cn/post/6844904098689449998
+
 
 [sequelize herf]: https://sequelize.org
 [aliOSS herf]: https://help.aliyun.com/document_detail/32070.html
