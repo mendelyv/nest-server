@@ -11,6 +11,8 @@ import { TransformInterceptor } from './common/interceptor/transform.interceptor
 import { AppExceptionFilter } from './common/filter/app-exception.filter';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 
+declare const module: any;
+
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     const express = app.getHttpAdapter().getInstance();
@@ -44,5 +46,10 @@ async function bootstrap() {
 
     const port = envConfig.server_port;
     await app.listen(port);
+
+    if(module.hot) {
+        module.hot.accept();
+        module.hot.dispose(() => app.close());
+    }
 }
 bootstrap();
