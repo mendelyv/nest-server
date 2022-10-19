@@ -9,6 +9,7 @@ import { logger } from './common/middleware/logger.middleware';
 import * as Express from 'express';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { AppExceptionFilter } from './common/filter/app-exception.filter';
+import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -38,6 +39,8 @@ async function bootstrap() {
 
     // 全局异常过滤器
     app.useGlobalFilters(new AppExceptionFilter());
+    // 全局Http异常过滤器
+    app.useGlobalFilters(new HttpExceptionFilter());
 
     const port = envConfig.server_port;
     await app.listen(port);

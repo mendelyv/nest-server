@@ -1,14 +1,16 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
+import { BaseExceptionFilter } from '@nestjs/core';
 import { LogManager } from 'src/system/log/log.manager';
 
 @Catch()
-export class AppExceptionFilter implements ExceptionFilter {
+export class AppExceptionFilter extends BaseExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
 
-    const status = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    const isHttpException = exception instanceof HttpException;
+    const status = isHttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
     const logFormat = `****************************************************************
     Request original url: ${request.originalUrl}
