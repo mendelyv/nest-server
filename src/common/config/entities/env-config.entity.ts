@@ -96,6 +96,11 @@ export class EnvConfigEntity {
     @IsString()
     @Transform((v) => setDefault(v, defaultEnvConfig.ossBaseFilePath), { toClassOnly: true })
     readonly ossBaseFilePath: string;
+
+    /** jwt */
+    @Expose()
+    @IsString()
+    readonly jwtSecret: string;
 }
 
 
