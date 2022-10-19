@@ -3,7 +3,7 @@
 ## 📌 简介
 基于 `nestjs` +`sequelize`+`redis`+`mysql`+`class-validator`+`restful`。
 
-Nodejs服务器代码框架，力求快速部署微服务。
+Nodejs框架学习项目
 
 ## 📂 文件结构
 ```
@@ -84,7 +84,9 @@ src
 
 ## 🔍 参考链接
 https://github.com/SunSeekerX/upushy-server
+
 https://github.com/kentloog/nestjs-sequelize-typescript
+
 https://juejin.cn/post/6844904098689449998
 
 
