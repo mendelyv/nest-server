@@ -1,5 +1,5 @@
 import * as path from 'path';
-const baseLogPath = path.resolve(__dirname, '../../../logs'); // 日志根目录
+const baseLogPath = path.resolve('logs'); // 日志根目录
 
 const log4jsConfig={
     appenders:{
