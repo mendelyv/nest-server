@@ -23,7 +23,7 @@ export class AppExceptionFilter extends BaseExceptionFilter {
     LogManager.error(exception);
     response.status(status).json({
       status: status,
-      message: 'Serviec ERROR',
+      message: 'Service ERROR',
     });
   }
 }
