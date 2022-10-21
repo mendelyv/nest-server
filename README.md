@@ -42,7 +42,7 @@ src
 
 NODE_ENV配置详见package.json
 
-## 📦 数据库
+## 📊 数据库
 database.manager.ts初始化sequelize，默认初始化时添加表Model，表结构详见User模块user.entity.ts
 
 database模块未全局化，需要手动引入
@@ -81,15 +81,37 @@ logs
 src
 ├── ····
 ```
+## 📦 打包
+采用Webpack + pkg的打包方式，pkg见[pkg github][pkg herf]
+
+```
+// webpack打包development环境
+npm run build:dev
+
+// webpack打包production环境
+npm run build:prod
+
+// pkg打包linux
+npm run pkg:linux
+```
+打包后的文件在release文件夹中
 
 ## 🔍 参考链接
-https://github.com/SunSeekerX/upushy-server
-
+Nestjs框架：\
+https://github.com/SunSeekerX/upushy-server \
 https://github.com/kentloog/nestjs-sequelize-typescript
 
+log4js日志系统：\
 https://juejin.cn/post/6844904098689449998
+
+webpack配置：\
+https://github.com/ZenSoftware/bundled-nest
+
+pkg打包：\
+https://juejin.cn/post/6855129005730775053
 
 
 [sequelize herf]: https://sequelize.org
 [aliOSS herf]: https://help.aliyun.com/document_detail/32070.html
 [Nestjs OpenAPI herf]: https://docs.nestjs.cn/8/openapi
+[pkg herf]: https://github.com/vercel/pkg
