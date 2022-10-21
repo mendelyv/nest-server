@@ -37,3 +37,4 @@ lerna-debug.log*
 .prettierrc
 .eslintrc.js
 /test
+/release

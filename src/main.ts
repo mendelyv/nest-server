@@ -10,8 +10,9 @@ import * as Express from 'express';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { AppExceptionFilter } from './common/filter/app-exception.filter';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import * as chalk from 'chalk';
 
-declare const module: any;
+// declare const module: any;
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -46,10 +47,13 @@ async function bootstrap() {
 
     const port = envConfig.server_port;
     await app.listen(port);
+    console.log(chalk.green(` ===== app on ${port} now ===== `));
+    console.log(chalk.green('[ENV]: 运行配置 '), envConfig);
+    console.log(chalk.green(` ===== app on ${port} now ===== `));
 
-    if(module.hot) {
-        module.hot.accept();
-        module.hot.dispose(() => app.close());
-    }
+    // if(module.hot) {
+    //     module.hot.accept();
+    //     module.hot.dispose(() => app.close());
+    // }
 }
 bootstrap();

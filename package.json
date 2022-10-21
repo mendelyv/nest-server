@@ -5,17 +5,22 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "bin": "dist/main.js",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "build:prod": "rimraf dist && webpack",
+    "build:dev": "rimraf dist && cross-env NODE_ENV=development webpack",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "server": "cross-env NODE_ENV=development nest start --watch",
     "start": "nest start",
-    "start:dev": "cross-env NODE_ENV=development nest start --watch",
+    "start:dev": "cross-env NODE_ENV=development nest start --daemon",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production nest start",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "starthmr": "cross-env NODE_ENV=development nest build --webpack --webpackPath webpack-hmr.config.js --watch"
+    "starthmr": "cross-env NODE_ENV=development nest build --webpack --webpackPath webpack-hmr.config.js --watch",
+    "pkg:mac": "rimraf ./release/app-mac && pkg . -t node14-mac-x64 -o ./release/app-mac",
+    "pkg:linux": "rimraf ./release/app-linux && pkg . -t node14-linux-x64 -o ./release/app-linux"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -31,6 +36,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "cross-env": "^7.0.3",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.7.0",
     "moment": "^2.29.4",
@@ -71,8 +77,10 @@
     "ts-loader": "^9.2.3",
     "ts-node": "^10.0.0",
     "tsconfig-paths": "4.1.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
     "webpack-node-externals": "^3.0.0"
   },
   "jest": {
@@ -91,5 +99,11 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "pkg":{
+    "assets": [
+      "./public/**/*",
+      "./views/**/*"
+    ]
   }
 }
