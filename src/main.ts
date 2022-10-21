@@ -11,6 +11,7 @@ import { TransformInterceptor } from './common/interceptor/transform.interceptor
 import { AppExceptionFilter } from './common/filter/app-exception.filter';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import * as chalk from 'chalk';
+const { NODE_ENV = 'production' } = process.env;
 
 // declare const module: any;
 
@@ -49,6 +50,7 @@ async function bootstrap() {
     await app.listen(port);
     console.log(chalk.green(` ===== app on ${port} now ===== `));
     console.log(chalk.green('[ENV]: 运行配置 '), envConfig);
+    console.log(chalk.green('[ENV]: 运行模式 '), chalk.yellow(NODE_ENV));
     console.log(chalk.green(` ===== app on ${port} now ===== `));
 
     // if(module.hot) {
