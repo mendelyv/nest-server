@@ -19,7 +19,17 @@ module.exports = {
     plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.build.json' })],
   },
   module: {
-    rules: [{ test: /\.ts$/, loader: 'ts-loader' }],
+    rules: [{
+      test: /\.ts$/,
+      use: [
+        {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true
+          }
+        }
+      ]
+    }],
   },
   stats: {
     warningsFilter: [
