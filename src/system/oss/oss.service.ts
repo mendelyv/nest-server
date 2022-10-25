@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as OSS from 'ali-oss'
-import { plainToClass } from 'class-transformer';
 import { envConfig } from 'src/common/config';
 import { OssPutSuccessResponseDto } from './dto/oss-put-success-response.dto';
 
@@ -9,7 +8,9 @@ export class OssService {
     private _client: OSS;
 
     constructor() {
-        this._client = new OSS(envConfig.oss);
+        if(envConfig.enable_oss) {
+            this._client = new OSS(envConfig.oss);
+        }
     }
 
     async put(filePath: string, file: Express.Multer.File) {

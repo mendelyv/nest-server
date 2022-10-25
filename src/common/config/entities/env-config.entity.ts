@@ -14,7 +14,7 @@ export class EnvConfigEntity {
     /** 启用Redis */
     @Expose()
     @IsBoolean()
-    @Transform((v) => setDefault(v, defaultEnvConfig.enable_redis), { toClassOnly: true })
+    @Transform((v) => setDefault(v, false), { toClassOnly: true })
     readonly enable_redis: boolean;
 
     /** redis主机 */
@@ -89,6 +89,13 @@ export class EnvConfigEntity {
     @IsBoolean()
     @Transform((v) => setDefault(v, false), { toClassOnly: true })
     readonly db_sync: boolean;
+
+    /** 启用oss */
+    @Expose()
+    @IsBoolean()
+    @ValidateIf((self) => self.enable_oss)
+    @Transform((v) => setDefault(v, false), { toClassOnly: true })
+    readonly enable_oss: boolean;
 
     /** oss配置 */
     @Expose()

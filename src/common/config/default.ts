@@ -3,8 +3,6 @@ import * as OSS from 'ali-oss'
 
 /** 运行端口 */
 export const server_port = '7890';
-/** 启用Redis */
-export const enable_redis = true;
 /** redis主机 */
 export const redis_host = '127.0.0.1';
 /** redis端口 */
@@ -23,6 +21,8 @@ export const db_user = 'root';
 export const db_password = '12345678';
 /** 数据库名称 */
 export const db_name = 'database_name';
+/** 启用oss */
+export const enable_oss = false;
 /** oss配置 */
 export const oss: OSS.Options = {
     accessKeyId: '',
