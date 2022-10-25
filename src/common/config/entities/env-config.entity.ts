@@ -14,7 +14,7 @@ export class EnvConfigEntity {
     /** 启用Redis */
     @Expose()
     @IsBoolean()
-    @Transform((v) => setDefault(v, false), { toClassOnly: true })
+    @Transform((v) => setDefault(v, defaultEnvConfig.enable_redis), { toClassOnly: true })
     readonly enable_redis: boolean;
 
     /** redis主机 */
@@ -22,6 +22,7 @@ export class EnvConfigEntity {
     @ValidateIf((self) => self.enable_redis)
     @IsString()
     @IsIP()
+    @Transform((v) => setDefault(v, defaultEnvConfig.redis_host), { toClassOnly: true })
     readonly redis_host: string;
 
     /** redis端口 */
@@ -29,18 +30,21 @@ export class EnvConfigEntity {
     @ValidateIf((self) => self.enable_redis)
     @IsString()
     @IsPort()
+    @Transform((v) => setDefault(v, defaultEnvConfig.redis_port), { toClassOnly: true })
     readonly redis_port: string;
 
     /** redis目标库索引 */
     @Expose()
     @ValidateIf((self) => self.enable_redis)
     @IsInt()
+    @Transform((v) => setDefault(v, defaultEnvConfig.redis_db_index), { toClassOnly: true })
     readonly redis_db_index: number;
 
     /** redis密码 */
     @Expose()
     @ValidateIf((self) => self.enable_redis)
     @IsString()
+    @Transform((v) => setDefault(v, defaultEnvConfig.redis_password), { toClassOnly: true })
     readonly redis_password: string;
 
     /** database主机 */

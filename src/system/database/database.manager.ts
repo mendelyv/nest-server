@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Sequelize } from 'sequelize-typescript';
 import { envConfig } from 'src/common/config';
-import { User } from 'src/user/entities/user.entity';
+import { User } from 'src/common-modules/user/entities/user.entity';
 
 @Injectable()
 export class DatabaseManager {
