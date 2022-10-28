@@ -1,15 +1,18 @@
 import { Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { DB } from "src/system/database/database.tables";
 
 enum Gender {
-    None = 'none',
-    male = 'male',
-    female = 'female',
+    None,
+    male = '1',
+    female = '2',
 }
 
 @Table({
     tableName: 'user',
+    comment: '后台管理员表'
 })
-export class User extends Model {
+export class User extends Model<User> {
+
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
@@ -92,7 +95,6 @@ export class User extends Model {
     })
     weixinId: string;
 
-
     @Column({
         type: DataType.STRING,
         comment: '钉钉 id'
@@ -100,3 +102,5 @@ export class User extends Model {
     dingtalkId: string;
 
 }
+
+DB.addModel(User);
