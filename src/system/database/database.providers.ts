@@ -2,12 +2,13 @@ import { Provider } from "@nestjs/common";
 import { Sequelize } from "sequelize-typescript"
 import { Dialect } from 'sequelize/types';
 import { envConfig } from "src/common/config";
-import { DatabaseManager } from "./database.manager";
+import * as chalk from "chalk";
+import { DB } from "./database.tables";
 
 export const databaseProviders: Provider[] = [
     {
         provide: 'Sequelize',
-        useFactory: (dbmanager: DatabaseManager) => {
+        useFactory: () => {
             const sequelize = new Sequelize({
                 dialect: 'mysql' as Dialect,
                 host: envConfig.db_host,
@@ -21,9 +22,23 @@ export const databaseProviders: Provider[] = [
                     freezeTableName: true,
                 }
             });
-            dbmanager.initSequelize(sequelize);
+
+            let tables = DB.getTables();
+            sequelize.addModels(tables);
+
+            if (envConfig.db_sync) {
+                sequelize.sync({ alter: true })
+            }
+
+            let logFormat = chalk.green('[DataBase Tables]: ');
+            for (let i = 0; i < tables.length; i++) {
+                let table = tables[i];
+                logFormat += table.tableName;
+                if (i != tables.length - 1) logFormat += ' | ';
+            }
+            console.log(logFormat);
+
             return sequelize;
         },
-        inject: [DatabaseManager]
     }
 ]
