@@ -3,7 +3,7 @@ import * as Jwt from 'jsonwebtoken';
 import { envConfig } from '../config';
 
 @Injectable()
-export class TokenUtils {
+export class AuthUtils {
 
     /**
      * 生成token，默认10天过期
@@ -11,7 +11,7 @@ export class TokenUtils {
      * @param expires - 过期时间
      * @returns token
      */
-    generateToken(user: any, expires = 864000) {
+    static generateToken(user: any, expires: string | number = 864000) {
         const tokenUser = {
             username: user.username,
             id: user.id,
@@ -29,8 +29,11 @@ export class TokenUtils {
      * @param token - 
      * @returns 
      */
-    decodeToken(token: string) {
-        let result: string | Jwt.JwtPayload;
+    static decodeToken(token: string) {
+        if(token == null) return null;
+        const regex = /((?:\.?(?:[A-Za-z0-9-_]+)){3})$/gm;
+        token = token.match(regex)[0];
+        let result: any;
         Jwt.verify(
             token,
             envConfig.jwtSecret,

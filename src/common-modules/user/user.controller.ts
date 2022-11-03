@@ -13,7 +13,7 @@ import { UserService } from "./user.service";
 @Controller('api/backend/user')
 @ApiTags('用户')
 @ApiBearerAuth(accessToken)
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class UserController extends CRUDController<User, UserDto, BaseFindAllQuery, CreateUserDto, UpdateUserDto> {
 
     @Inject()
