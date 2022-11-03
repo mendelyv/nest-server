@@ -1,4 +1,4 @@
-import { Model, ModelCtor } from "sequelize-typescript";
+import { ModelCtor } from "sequelize-typescript";
 
 export namespace DB {
     const tables: Array<ModelCtor> = [];

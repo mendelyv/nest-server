@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class DBDataBaseStructure {
+export class BaseDBDto {
     @ApiProperty({required: true})
     id: number;
 
@@ -19,7 +19,7 @@ export class DBDataBaseStructure {
     updatedAt?: string | number;
 }
 
-export class FindAndCountAllStructure<T extends DBDataBaseStructure = any> {
+export class FindAndCountAllDto<T extends BaseDBDto> {
     @ApiProperty({description: '总数'})
     count: number;
     @ApiProperty({description: '数据数组'})

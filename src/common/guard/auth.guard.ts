@@ -1,5 +1,4 @@
 import { Injectable, CanActivate, ExecutionContext, Inject, UnauthorizedException } from '@nestjs/common';
-import { IncomingMessage } from 'http';
 import { Observable } from 'rxjs';
 import { TokenUtils } from '../utils/utils.token';
 

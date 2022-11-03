@@ -1,10 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
-import { DBDataBaseStructure, FindAndCountAllStructure } from "src/common/base/database/base.dto";
-import { CreateResponse, FindAndCountAllResponse, findAndCountAllStructureApiProperty, FindOneResponse } from "src/common/base/http/crud.dto";
+import { BaseDBDto, FindAndCountAllDto } from "src/common/base/database/base.dto";
+import { CreateResponse, FindAndCountAllResponse, FindOneResponse } from "src/common/base/http/crud.dto";
+import { FindAndCountAllProperty } from "src/common/decorator/findAndCountAll.decorator";
 
 
-export class User extends DBDataBaseStructure {
+export class UserDto extends BaseDBDto {
 
     @ApiProperty({ description: '用户名' })
     username: string;
@@ -46,9 +47,9 @@ export class User extends DBDataBaseStructure {
     dingtalkId: string;
 }
 
-export class FindAndCountAllUserResponse extends FindAndCountAllResponse {
-    @ApiProperty(findAndCountAllStructureApiProperty(User))
-    data: FindAndCountAllStructure<User>;
+export class FindAndCountAllUserResponse extends FindAndCountAllResponse<UserDto> {
+    @FindAndCountAllProperty(UserDto)
+    data: FindAndCountAllDto<UserDto>;
 }
 
 export class CreateUserDto {
@@ -95,14 +96,14 @@ export class CreateUserDto {
 
 export class UpdateUserDto extends CreateUserDto { }
 
-export class CreateUserResponse extends CreateResponse {
+export class CreateUserResponse extends CreateResponse<UserDto> {
     @ApiProperty()
-    data: User;
+    data: UserDto;
 }
 
-export class FindOneUserResponse extends FindOneResponse<User> {
+export class FindOneUserResponse extends FindOneResponse<UserDto> {
     @ApiProperty()
-    data: User;
+    data: UserDto;
 }
 
 export class UpdateUserPasswordDto {

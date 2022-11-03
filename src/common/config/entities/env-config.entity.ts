@@ -1,4 +1,4 @@
-import { Expose, Transform, TransformFnParams, Type } from "class-transformer";
+import { Expose, Transform, TransformFnParams } from "class-transformer";
 import { IsBoolean, IsInt, IsIP, IsNotEmpty, IsPort, IsString, ValidateIf } from "class-validator";
 import * as defaultEnvConfig from "../default";
 import * as OSS from 'ali-oss'

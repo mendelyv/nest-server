@@ -1,6 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose } from "class-transformer";
-import { IsNumber } from "class-validator";
 
 export class BaseResponse {
 
@@ -22,7 +20,7 @@ export class BaseResponse {
 }
 
 
-export class BaseResponseWithData<T extends {} = any> extends BaseResponse {
+export class BaseResponseWithData<T> extends BaseResponse {
     data: T;
     constructor(data?: T) {
         super();
@@ -33,15 +31,11 @@ export class BaseResponseWithData<T extends {} = any> extends BaseResponse {
 
 export class BaseFindAllQuery {
 
-    @Expose()
-    @IsNumber()
     @ApiProperty({
         required: false
     })
     page: number;
 
-    @Expose()
-    @IsNumber()
     @ApiProperty({
         required: false
     })
