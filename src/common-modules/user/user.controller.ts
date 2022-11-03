@@ -6,14 +6,39 @@ import { accessToken } from "src/common/constants/token.constants";
 import { ReqUser } from "src/common/decorator/user.decorator";
 import { AuthGuard } from "src/common/guard/auth.guard";
 import { ValidationPipe } from "src/common/pipe/validate.pipe";
-import { CreateUserDto, FindOneUserResponse, UpdateUserDto, UpdateUserPasswordDto, UserDto } from "./dto/user.dto";
+import { CreateUserDto, CreateUserResponse, FindAndCountAllUserResponse, FindOneUserResponse, UpdateUserDto, UpdateUserPasswordDto, UserDto } from "./dto/user.dto";
 import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
+import { CRUD } from 'src/common/decorator/crud.decorator'
 
 @Controller('api/backend/user')
 @ApiTags('用户')
 @ApiBearerAuth(accessToken)
 @UseGuards(AuthGuard)
+@CRUD({
+    enabled: [
+        'index',
+        'update',
+        'create',
+        'show',
+        'destroy'
+    ],
+    dtos: {
+        index: {
+            summary: '查找所有用户',
+            response: FindAndCountAllUserResponse,
+        },
+        show: {
+            summary: '查询用户详情',
+            response: FindOneUserResponse,
+        },
+        create: {
+            summary: '添加用户',
+            body: CreateUserDto,
+            response: CreateUserResponse,
+        },
+    }
+})
 export class UserController extends CRUDController<User, UserDto, BaseFindAllQuery, CreateUserDto, UpdateUserDto> {
 
     @Inject()
