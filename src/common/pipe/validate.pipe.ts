@@ -19,8 +19,9 @@ export class ValidationPipe implements PipeTransform<any> {
                 let keys = Object.keys(error.constraints)
                 for (let j = 0; j < keys.length; j++) {
                     info += error.constraints[keys[j]];
-                    info += ' | ';
                 }
+                if (i != errors.length - 1)
+                    info += ' | ';
             }
             throw new BadRequestException(info);
         }
