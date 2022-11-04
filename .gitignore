@@ -38,3 +38,6 @@ lerna-debug.log*
 .eslintrc.js
 /test
 /release
+
+env.development.yaml
+env.production.yaml
