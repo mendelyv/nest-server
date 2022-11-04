@@ -16,6 +16,7 @@ export class BaseResponse {
     set({ message, status }: { message: string, status: number }) {
         this.message = message;
         this.status = status;
+        return this;
     }
 }
 
