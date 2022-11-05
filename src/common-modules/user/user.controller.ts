@@ -1,53 +1,64 @@
-import { Get, Inject, Controller, Post, UsePipes, Body, Put, UseGuards } from "@nestjs/common";
-import { ApiResponse, ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
-import { CRUDController } from "src/common/base/crud/crud.controller";
-import { BaseFindAllQuery } from "src/common/base/http/base.dto";
+import { Get, Inject, Controller, Post, UsePipes, Body, Put, UseGuards, Query, Param } from "@nestjs/common";
+import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { accessToken } from "src/common/constants/token.constants";
 import { ReqUser } from "src/common/decorator/user.decorator";
 import { AuthGuard } from "src/common/guard/auth.guard";
 import { ValidationPipe } from "src/common/pipe/validate.pipe";
-import { CreateUserDto, CreateUserResponse, FindAndCountAllUserResponse, FindOneUserResponse, UpdateUserDto, UpdateUserPasswordDto, UserDto } from "./dto/user.dto";
-import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
-import { CRUD } from 'src/common/decorator/crud.decorator'
+import { User } from "./entities/user.entity";
+import { CreateUserRequest, UpdateUserPasswordRequest, UpdateUserRequest } from "./dto/user.dto";
+import { ApiBaseResponseWithGenericData } from "src/common/decorator/api-base-response-with-generic-data.decorator";
+import { ApiBaseResponseWithGenericArray } from "src/common/decorator/api-base-response-with-generic-array.decorator";
+import { BaseFindAllQuery, BaseResponseWithData } from "src/common/base/http/base.dto";
+import { ApiUpdateResponse } from "src/common/decorator/api-update-response.decorator";
 
 @Controller('api/backend/user')
 @ApiTags('用户')
 @ApiBearerAuth(accessToken)
 @UseGuards(AuthGuard)
-@CRUD({
-    enabled: [
-        'index',
-        'update',
-        'create',
-        'show',
-        'destroy'
-    ],
-    dtos: {
-        index: {
-            summary: '查找所有用户',
-            response: FindAndCountAllUserResponse,
-        },
-        show: {
-            summary: '查询用户详情',
-            response: FindOneUserResponse,
-        },
-        create: {
-            summary: '添加用户',
-            body: CreateUserDto,
-            response: CreateUserResponse,
-        },
-    }
-})
-export class UserController extends CRUDController<User, UserDto, BaseFindAllQuery, CreateUserDto, UpdateUserDto> {
+export class UserController {
 
     @Inject()
     protected readonly service: UserService;
 
 
+    @Get()
+    @ApiOperation({ summary: '列表' })
+    @ApiBaseResponseWithGenericArray(User)
+    async index(@Query() packet?: BaseFindAllQuery): Promise<BaseResponseWithData<Array<User>>> {
+        return await this.service.index(packet);
+    }
+
+
+    @Get(':id')
+    @UsePipes(ValidationPipe)
+    @ApiOperation({ summary: '查' })
+    @ApiBaseResponseWithGenericData(User)
+    async show(@Param('id') id: string): Promise<BaseResponseWithData<User>> {
+        return await this.service.show(id);
+    }
+
+
+    @Post()
+    @UsePipes(ValidationPipe)
+    @ApiOperation({ summary: '增' })
+    @ApiBaseResponseWithGenericData(User)
+    async create(@Body() packet: CreateUserRequest): Promise<BaseResponseWithData<User>> {
+        return await this.service.create(packet);
+    }
+
+
+    @Put(':id')
+    @ApiOperation({ summary: '改' })
+    @ApiUpdateResponse()
+    async update(@Param('id') id: string, @Body() packet: UpdateUserRequest): Promise<BaseResponseWithData<Array<Number>>> {
+        return await this.service.update(id, packet);
+    }
+
+
     @Get('profile')
     @ApiOperation({ summary: '获取用户信息' })
-    @ApiResponse({ type: FindOneUserResponse })
+    @ApiBaseResponseWithGenericData(User)
     async getProfile(@ReqUser() user: { username: string, id: string }) {
         return await this.service.getProfile(user);
     }
@@ -55,19 +66,20 @@ export class UserController extends CRUDController<User, UserDto, BaseFindAllQue
 
     @Post('profile')
     @ApiOperation({ summary: '更新用户信息' })
-    @ApiResponse({ type: FindOneUserResponse })
-    async updateProfile(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserDto) {
+    @ApiBaseResponseWithGenericData(User)
+    async updateProfile(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserRequest) {
         return await this.service.updateProfile(user, packet);
     }
 
 
     @Put('password')
     @ApiOperation({ summary: '修改密码' })
-    @ApiResponse({ type: FindOneUserResponse })
+    @ApiBaseResponseWithGenericData(User)
     @UsePipes(ValidationPipe)
-    async updatePassword(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserPasswordDto) {
+    async updatePassword(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserPasswordRequest) {
         return await this.service.updatePassword(user, packet);
     }
+
 
 
 }

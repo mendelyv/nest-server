@@ -1,112 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, OmitType, PartialType } from "@nestjs/swagger";
 import { IsString } from "class-validator";
-import { BaseDBDto, FindAndCountAllDto } from "src/common/base/database/base.dto";
-import { CreateResponse, FindAndCountAllResponse, FindOneResponse } from "src/common/base/http/crud.dto";
-import { FindAndCountAllProperty } from "src/common/decorator/findAndCountAll.decorator";
+import { User } from "../entities/user.entity";
 
+export class CreateUserRequest extends OmitType(User, ['id']) { }
 
-export class UserDto extends BaseDBDto {
+export class UpdateUserRequest extends PartialType(CreateUserRequest) { }
 
-    @ApiProperty({ description: '用户名' })
-    username: string;
-
-    @ApiProperty({ description: '密码' })
-    password: string;
-
-    @ApiProperty({ description: '显示名称' })
-    displayName: string;
-
-    @ApiProperty({ description: '邮箱' })
-    email: string;
-
-    @ApiProperty({ description: '手机号' })
-    mobile: string;
-
-    @ApiProperty({ description: '性别: 1为男，2为女' })
-    sex: number;
-
-    @ApiProperty({ description: '头像' })
-    profileImageUrl: string
-
-    @ApiProperty({ description: '简介' })
-    introduction: string;
-
-    @ApiProperty({ description: '简介' })
-    roleId: number;
-
-    @ApiProperty({ description: '是否可用' })
-    isEnabled: boolean;
-
-    @ApiProperty({ description: 'github id' })
-    githubId: string;
-
-    @ApiProperty({ description: '微信 id' })
-    weixinId: string;
-
-    @ApiProperty({ description: '钉钉 id' })
-    dingtalkId: string;
-}
-
-export class FindAndCountAllUserResponse extends FindAndCountAllResponse<UserDto> {
-    @FindAndCountAllProperty(UserDto)
-    data: FindAndCountAllDto<UserDto>;
-}
-
-export class CreateUserDto {
-
-    @ApiProperty({ description: '用户名', required: false })
-    username: string;
-
-    @ApiProperty({ description: '密码', required: false })
-    password: string;
-
-    @ApiProperty({ description: '显示名称', required: false })
-    displayName: string;
-
-    @ApiProperty({ description: '邮箱', required: false })
-    email: string;
-
-    @ApiProperty({ description: '手机号', required: false })
-    mobile: string;
-
-    @ApiProperty({ description: '性别: 1为男，2为女', required: false })
-    sex: number;
-
-    @ApiProperty({ description: '头像', required: false })
-    profileImageUrl: string
-
-    @ApiProperty({ description: '简介', required: false })
-    introduction: string;
-
-    @ApiProperty({ description: '简介', required: false })
-    roleId: number;
-
-    @ApiProperty({ description: '是否可用', required: false })
-    isEnabled: boolean;
-
-    @ApiProperty({ description: 'github id', required: false })
-    githubId: string;
-
-    @ApiProperty({ description: '微信 id', required: false })
-    weixinId: string;
-
-    @ApiProperty({ description: '钉钉 id', required: false })
-    dingtalkId: string;
-}
-
-export class UpdateUserDto extends CreateUserDto { }
-
-export class CreateUserResponse extends CreateResponse<UserDto> {
-    @ApiProperty()
-    data: UserDto;
-}
-
-export class FindOneUserResponse extends FindOneResponse<UserDto> {
-    @ApiProperty()
-    data: UserDto;
-}
-
-export class UpdateUserPasswordDto {
+export class UpdateUserPasswordRequest {
     @ApiProperty()
     @IsString()
     oldPwd: string;

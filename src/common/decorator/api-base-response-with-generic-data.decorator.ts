@@ -1,7 +1,8 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
 
-export const ApiGenericResponse = <T extends Type<unknown>>(dto: T) => applyDecorators(
+export const ApiBaseResponseWithGenericData = <T extends Type<unknown>>(dto: T) => applyDecorators(
+    ApiExtraModels(dto),
     ApiResponse({
         schema: {
             allOf: [
