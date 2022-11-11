@@ -8,7 +8,7 @@ export class ValidationPipe implements PipeTransform<any> {
         if (!metatype || !this.toValidate(metatype)) {
             return value;
         }
-        const object = plainToClass(metatype, value);
+        const object = plainToClass(metatype, value, { excludeExtraneousValues: true });
         const errors = await validate(object);
         let info = 'Bad Request Exception';
         if (errors.length > 0) {
@@ -25,7 +25,7 @@ export class ValidationPipe implements PipeTransform<any> {
             }
             throw new BadRequestException(info);
         }
-        return value;
+        return object;
     }
 
     private toValidate(metatype: Function): boolean {

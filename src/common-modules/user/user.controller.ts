@@ -31,7 +31,6 @@ export class UserController {
 
 
     @Get(':id')
-    @UsePipes(ValidationPipe)
     @ApiOperation({ summary: '查' })
     @ApiBaseResponseWithGenericData(User)
     async show(@Param('id') id: string): Promise<BaseResponseWithData<User>> {
@@ -50,6 +49,7 @@ export class UserController {
 
     @Put(':id')
     @ApiOperation({ summary: '改' })
+    @UsePipes(ValidationPipe)
     @ApiUpdateResponse()
     async update(@Param('id') id: string, @Body() packet: UpdateUserRequest): Promise<BaseResponseWithData<Array<Number>>> {
         return await this.service.update(id, packet);
