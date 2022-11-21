@@ -25,16 +25,16 @@ export class UserController {
     @Get()
     @ApiOperation({ summary: '列表' })
     @ApiBaseResponseWithGenericArray(User)
-    async index(@Query() packet?: BaseFindAllQuery): Promise<BaseResponseWithData<Array<User>>> {
-        return await this.service.index(packet);
+    async findAll(@Query() packet?: BaseFindAllQuery) {
+        return new BaseResponseWithData(await this.service.findAll(packet));
     }
 
 
     @Get(':id')
     @ApiOperation({ summary: '查' })
     @ApiBaseResponseWithGenericData(User)
-    async show(@Param('id') id: string): Promise<BaseResponseWithData<User>> {
-        return await this.service.show(id);
+    async findOne(@Param('id') id: string) {
+        return new BaseResponseWithData(await this.service.findOne(id));
     }
 
 
@@ -42,8 +42,8 @@ export class UserController {
     @UsePipes(ValidationPipe)
     @ApiOperation({ summary: '增' })
     @ApiBaseResponseWithGenericData(User)
-    async create(@Body() packet: CreateUserRequest): Promise<BaseResponseWithData<User>> {
-        return await this.service.create(packet);
+    async create(@Body() packet: CreateUserRequest) {
+        return new BaseResponseWithData(await this.service.create(packet));
     }
 
 
@@ -51,8 +51,8 @@ export class UserController {
     @ApiOperation({ summary: '改' })
     @UsePipes(ValidationPipe)
     @ApiUpdateResponse()
-    async update(@Param('id') id: string, @Body() packet: UpdateUserRequest): Promise<BaseResponseWithData<Array<Number>>> {
-        return await this.service.update(id, packet);
+    async update(@Param('id') id: string, @Body() packet: UpdateUserRequest) {
+        return new BaseResponseWithData(await this.service.update(id, packet));
     }
 
 

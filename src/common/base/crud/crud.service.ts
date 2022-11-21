@@ -6,7 +6,7 @@ import { Type } from "@nestjs/common";
 
 export abstract class CRUDService<T extends Model<T>> extends BaseService<T> {
     protected abstract readonly table: Type<T>;
-    async index(packet?: BaseFindAllQuery): Promise<{ rows: T[]; count: number }> {
+    async findAll(packet?: BaseFindAllQuery): Promise<{ rows: T[]; count: number }> {
         const page = packet ? (packet.page || null) : null;
         const limit = packet ? (packet.limit || null) : null;
         const options: FindAndCountOptions = {
@@ -21,7 +21,7 @@ export abstract class CRUDService<T extends Model<T>> extends BaseService<T> {
         let data = await (this.table as any).findAndCountAll(options);
         return data;
     }
-    async show(id: string): Promise<T | null> {
+    async findOne(id: string): Promise<T | null> {
         return await (this.table as any).findByPk(id);
     }
     async create(packet: any): Promise<T> {
