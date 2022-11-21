@@ -3,7 +3,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { envConfig } from './common/config';
-import { setupSwagger } from './swagger';
 import * as nunjucks from 'nunjucks';
 import { logger } from './common/middleware/logger.middleware';
 import * as Express from 'express';
@@ -11,6 +10,7 @@ import { TransformInterceptor } from './common/interceptor/transform.interceptor
 import { AppExceptionFilter } from './common/filter/app-exception.filter';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import * as chalk from 'chalk';
+import { Swagger } from './swagger';
 const { NODE_ENV = 'production' } = process.env;
 
 // declare const module: any;
@@ -30,7 +30,7 @@ async function bootstrap() {
     app.setViewEngine('njk');
 
     // 配置接口文档
-    setupSwagger(app);
+    Swagger.setupSwagger(app);
 
     // 解析请求体结构
     app.use(Express.json());
