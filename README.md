@@ -65,6 +65,13 @@ app-cache.service.ts提供Redis单例，使用时仅需注入AppCacheService即�
 
 详细使用说明见[Nestjs OpenAPI][Nestjs OpenAPI herf]
 
+## 🛠️ 单元测试(非强制)
+采用jest包来进行单元测试，测试用例代码详见user.controller.spec.ts，user.service.spec.ts和log.controller.spec.ts。
+
+测试用例文件均使用spec或test修饰，jest会自行寻找，或自行配置jest.config.js文件。
+
+[jest教程][jest herf]
+
 ## 📑 静态网页
 文件存于views
 
