@@ -4,7 +4,7 @@ import { plainToClass } from 'class-transformer';
 export class MockValidatorPipe {
     async check(value: any, metatype: any) {
         if (!metatype || !this.toValidate(metatype)) {
-            return value;
+            return false;
         }
         const object = plainToClass(metatype, value, { excludeExtraneousValues: true });
         const errors = await validate(object);
