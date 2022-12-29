@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { Swagger } from 'src/swagger';
 import { OssController } from './oss.controller';
 import { OssService } from './oss.service';
 
@@ -8,3 +9,5 @@ import { OssService } from './oss.service';
     exports: [OssService]
 })
 export class OssModule { }
+
+Swagger.addModel(Swagger.ESwagger.Common, OssModule);
