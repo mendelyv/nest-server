@@ -4,7 +4,6 @@
  */
 
 module.exports = {
-  detectOpenHandles: true,
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -18,7 +17,7 @@ module.exports = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -70,7 +69,7 @@ module.exports = {
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
-  
+
   modulePaths: [
     "<rootDir>",
   ],
@@ -177,6 +176,9 @@ module.exports = {
 
   // This option allows use of a custom test runner
   // testRunner: "jest-circus/runner",
+
+  //This option allows you to use a custom sequencer instead of Jest's default.
+  testSequencer: "./jest-custom-sequencer.js",
 
   // A map from regular expressions to paths to transformers
   transform: {

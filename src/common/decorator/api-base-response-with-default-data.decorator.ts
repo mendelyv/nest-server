@@ -1,5 +1,5 @@
 import { applyDecorators, Type } from '@nestjs/common';
-import { ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import { ApiResponse } from '@nestjs/swagger';
 
 export const ApiBaseResponseWithDefaultData = (dto: string) => applyDecorators(
     ApiResponse({

@@ -1,5 +1,5 @@
+import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
-import { DataBaseModule } from "src/system/database/database.module";
 import { userProviders } from "./providers";
 import { UserController } from "./user.controller"
 import { UserService } from "./user.service";
@@ -7,18 +7,24 @@ import { UserService } from "./user.service";
 describe('UserModule', () => {
     let userController: UserController;
     let userService: UserService;
+    let app: INestApplication;
 
-    beforeAll(async() => {
+    beforeAll(async () => {
         const module = await Test.createTestingModule({
             controllers: [UserController],
             providers: [
                 ...userProviders,
                 UserService,
             ],
-            imports: [DataBaseModule],
         }).compile();
+        app = module.createNestApplication();
+        await app.init();
         userController = module.get(UserController);
         userService = module.get(UserService);
+    });
+
+    afterAll(async () => {
+        await app.close();
     });
 
     it('instance user controller', () => {
