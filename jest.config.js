@@ -202,4 +202,7 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+  // Prevent tests from printing messages through the console
+  silent: true,
 };
