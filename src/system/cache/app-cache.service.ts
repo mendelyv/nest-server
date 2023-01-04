@@ -10,7 +10,7 @@ export class AppCacheService {
     private _enable: boolean;
 
     public get redis() {
-        if (!envConfig.enable_redis) {
+        if (!envConfig.redis.enable) {
             const logFormat = `****************************************************************
     Redis environment config was disabled
  ****************************************************************`;
@@ -21,14 +21,15 @@ export class AppCacheService {
     }
 
     constructor() {
-        this._enable = envConfig.enable_redis;
+        const config = envConfig.redis;
+        this._enable = config.enable;
         if (!this._enable) return;
 
         const options: RedisOptions = {
-            host: envConfig.redis_host,
-            port: parseInt(envConfig.redis_port),
-            password: envConfig.redis_password,
-            db: envConfig.redis_db_index,
+            host: config.host,
+            port: parseInt(config.port),
+            password: config.password,
+            db: config.index,
         }
         this._redis = new Redis(options);
     }

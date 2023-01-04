@@ -8,7 +8,7 @@ import { OssPutSuccessResponseDto } from './dto/oss-put-success-response.dto';
 export class OssService {
     private _client: OSS;
     public get client() {
-        if (!envConfig.enable_oss) {
+        if (!envConfig.oss.enable) {
             const logFormat = `****************************************************************
     OSS environment config was disabled
  ****************************************************************`;
@@ -19,13 +19,13 @@ export class OssService {
     }
 
     constructor() {
-        if(envConfig.enable_oss) {
+        if(envConfig.oss.enable) {
             this._client = new OSS(envConfig.oss);
         }
     }
 
     async put(filePath: string, file: Express.Multer.File) {
-        const basePath = envConfig.ossBaseFilePath;
+        const basePath = envConfig.oss.basePath;
         const fileName = file.originalname;
         const putPath = `${basePath}/${filePath}/${Date.now()}${fileName}`;
         let result = await this.client.put(putPath, file.buffer);

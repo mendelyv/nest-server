@@ -46,7 +46,7 @@ async function bootstrap() {
     // 全局Http异常过滤器
     app.useGlobalFilters(new HttpExceptionFilter());
 
-    const port = envConfig.server_port;
+    const port = envConfig.port;
     await app.listen(port);
     console.log(chalk.green(` ===== app on ${port} now ===== `));
     console.log(chalk.green('[ENV]: 运行配置 '), envConfig);

@@ -9,13 +9,14 @@ export const databaseProviders: Provider[] = [
     {
         provide: 'Sequelize',
         useFactory: () => {
+            const config = envConfig.database;
             const sequelize = new Sequelize({
                 dialect: 'mysql' as Dialect,
-                host: envConfig.db_host,
-                port: parseInt(envConfig.db_port),
-                username: envConfig.db_user,
-                password: envConfig.db_password,
-                database: envConfig.db_name,
+                host: config.host,
+                port: parseInt(config.port),
+                username: config.user,
+                password: config.password,
+                database: config.database,
                 define: {
                     paranoid: false,
                     underscored: true,
@@ -26,7 +27,7 @@ export const databaseProviders: Provider[] = [
             let tables = DB.getTables();
             sequelize.addModels(tables);
 
-            if (envConfig.db_sync) {
+            if (config.sync) {
                 sequelize.sync({ alter: true })
             }
 
