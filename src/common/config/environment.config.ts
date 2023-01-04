@@ -1,9 +1,9 @@
 import { Expose, Transform, Type } from "class-transformer";
 import { IsNotEmptyObject, IsPort, IsString, ValidateNested } from "class-validator";
-import { AliossConfig } from "./alioss.config";
-import { DatabaseConfig } from "./database.config";
-import { databaseConfig, ossConfig, port, redisConfig, setDefault } from "./default.config";
-import { RedisConfig } from "./redis.config";
+import { AliossConfig } from "./dtos/alioss.config";
+import { DatabaseConfig } from "./dtos/database.config";
+import { databaseConfig, ossConfig, port, redisConfig, setDefault } from "./dtos/default.config";
+import { RedisConfig } from "./dtos/redis.config";
 
 export class EnvironmentConfig {
     /** 运行端口 */

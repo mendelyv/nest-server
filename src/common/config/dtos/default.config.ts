@@ -5,7 +5,7 @@ import { RedisConfig } from './redis.config';
 /** 默认配置，覆盖级别最低 */
 
 /** 运行端口 */
-export const port = '7890';
+export const port = '7788';
 
 export const redisConfig: RedisConfig = {
     enable: true,
