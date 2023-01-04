@@ -4,11 +4,15 @@ import { Swagger } from 'src/swagger';
 import { OssController } from './oss.controller';
 import { OssService } from './oss.service';
 
-@Module({
-    controllers: [OssController],
-    providers: [OssService],
-    exports: [OssService]
-})
+function ossModuleMetaData() {
+    return envConfig.oss.enable ? {
+        controllers: [OssController],
+        providers: [OssService],
+        exports: [OssService]
+    } : {};
+}
+
+@Module(ossModuleMetaData())
 export class OssModule {
     static register(): DynamicModule {
         return envConfig.oss.enable ? {
