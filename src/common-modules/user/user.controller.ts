@@ -22,6 +22,30 @@ export class UserController {
     protected readonly service: UserService;
 
 
+    @Get('profile')
+    @ApiOperation({ summary: '获取用户信息' })
+    @ApiBaseResponseWithGenericData(User)
+    async getProfile(@ReqUser() user: { username: string, id: string }) {
+        return await this.service.getProfile(user);
+    }
+
+
+    @Post('profile')
+    @ApiOperation({ summary: '更新用户信息' })
+    @ApiBaseResponseWithGenericData(User)
+    async updateProfile(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserRequest) {
+        return await this.service.updateProfile(user, packet);
+    }
+
+
+    @Put('password')
+    @ApiOperation({ summary: '修改密码' })
+    @ApiBaseResponseWithGenericData(User)
+    @UsePipes(ValidationPipe)
+    async updatePassword(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserPasswordRequest) {
+        return await this.service.updatePassword(user, packet);
+    }
+
     @Get()
     @ApiOperation({ summary: '列表' })
     @ApiBaseResponseWithGenericArray(User)
@@ -54,32 +78,4 @@ export class UserController {
     async update(@Param('id') id: string, @Body() packet: UpdateUserRequest) {
         return new BaseResponseWithData(await this.service.update(id, packet));
     }
-
-
-    @Get('profile')
-    @ApiOperation({ summary: '获取用户信息' })
-    @ApiBaseResponseWithGenericData(User)
-    async getProfile(@ReqUser() user: { username: string, id: string }) {
-        return await this.service.getProfile(user);
-    }
-
-
-    @Post('profile')
-    @ApiOperation({ summary: '更新用户信息' })
-    @ApiBaseResponseWithGenericData(User)
-    async updateProfile(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserRequest) {
-        return await this.service.updateProfile(user, packet);
-    }
-
-
-    @Put('password')
-    @ApiOperation({ summary: '修改密码' })
-    @ApiBaseResponseWithGenericData(User)
-    @UsePipes(ValidationPipe)
-    async updatePassword(@ReqUser() user: { username: string, id: string }, @Body() packet: UpdateUserPasswordRequest) {
-        return await this.service.updatePassword(user, packet);
-    }
-
-
-
 }
