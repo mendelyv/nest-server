@@ -7,10 +7,10 @@ import { DataBaseModule } from './system/database/database.module';
 
 @Module({
     imports: [
-        DataBaseModule,
-        AppCacheModule,
+        DataBaseModule.register(),
+        AppCacheModule.register(),
         UserModule,
-        OssModule,
+        OssModule.register(),
     ],
     controllers: [AppController],
 })

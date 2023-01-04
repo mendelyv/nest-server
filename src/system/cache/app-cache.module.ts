@@ -1,9 +1,16 @@
-import { Module, Global } from '@nestjs/common'
+import { DynamicModule } from '@nestjs/common'
+import { envConfig } from 'src/common/config'
 import { AppCacheService } from './app-cache.service'
 
-@Global()
-@Module({
-  providers: [AppCacheService],
-  exports: [AppCacheService],
-})
-export class AppCacheModule { }
+export class AppCacheModule {
+    static register(): DynamicModule {
+        return envConfig.redis.enable ? {
+            module: AppCacheModule,
+            providers: [AppCacheService],
+            exports: [AppCacheService],
+            global: true,
+        } : {
+            module: AppCacheModule,
+        }
+    }
+}
