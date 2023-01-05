@@ -1,6 +1,7 @@
 import { TransformFnParams } from 'class-transformer';
 import { AliossConfig } from './alioss.config';
 import { DatabaseConfig } from './database.config';
+import { ExcelExportConfig } from './excel-export.config';
 import { RedisConfig } from './redis.config';
 /** 默认配置，覆盖级别最低 */
 
@@ -33,6 +34,18 @@ export const ossConfig: AliossConfig = {
     region: '',
     endpoint: '',
     basePath: '',
+}
+
+/** Excel表导出配置 */
+export const excelExportConfig: ExcelExportConfig = {
+    column: 25,
+    row: 20,
+    titleHeight: 35,
+    headerHeight: 25,
+    titleFontColor: 'DD303C',
+    titleBackgroundColor: '84B9DD',
+    borderColor: '454545',
+    contentBackgroundColor: 'ECECEC',
 }
 
 /**
