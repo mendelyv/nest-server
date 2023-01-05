@@ -204,5 +204,5 @@ module.exports = {
   // watchman: true,
 
   // Prevent tests from printing messages through the console
-  silent: true,
+  silent: false,
 };
