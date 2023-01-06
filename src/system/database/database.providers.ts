@@ -31,13 +31,15 @@ export const databaseProviders: Provider[] = [
                 sequelize.sync({ alter: true })
             }
 
-            let logFormat = chalk.green('[DataBase Tables]: ');
-            for (let i = 0; i < tables.length; i++) {
-                let table = tables[i];
-                logFormat += table.tableName;
-                if (i != tables.length - 1) logFormat += ' | ';
+            if (!envConfig.silent && !envConfig.databaseSilent) {
+                let logFormat = chalk.green('[DataBase Tables]: ');
+                for (let i = 0; i < tables.length; i++) {
+                    let table = tables[i];
+                    logFormat += table.tableName;
+                    if (i != tables.length - 1) logFormat += ' | ';
+                }
+                console.log(logFormat);
             }
-            console.log(logFormat);
 
             return sequelize;
         },

@@ -1,5 +1,5 @@
 import { Expose, Transform, Type } from "class-transformer";
-import { IsNotEmptyObject, IsPort, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsNotEmptyObject, IsPort, IsString, ValidateIf, ValidateNested } from "class-validator";
 import { AliossConfig } from "./dtos/alioss.config";
 import { DatabaseConfig } from "./dtos/database.config";
 import { setDefault } from "./dtos/default.config";
@@ -13,6 +13,26 @@ export class EnvironmentConfig {
     @Transform((v) => setDefault(v, defaultConfig.port), { toClassOnly: true })
     @IsPort()
     readonly port: string;
+
+    /** 静默启动 */
+    @Expose()
+    @Transform((v) => setDefault(v, defaultConfig.silent), { toClassOnly: true })
+    @IsBoolean()
+    readonly silent: boolean;
+
+    /** 静默启动配置 */
+    @Expose()
+    @Transform((v) => setDefault(v, defaultConfig.configSilent), { toClassOnly: true })
+    @ValidateIf((s) => !s.silent)
+    @IsBoolean()
+    readonly configSilent: boolean;
+
+    /** 静默启动表实例列表 */
+    @Expose()
+    @Transform((v) => setDefault(v, defaultConfig.databaseSilent), { toClassOnly: true })
+    @ValidateIf((s) => !s.silent)
+    @IsBoolean()
+    readonly databaseSilent: boolean;
 
     /** 数据库配置 */
     @Expose()

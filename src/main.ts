@@ -16,7 +16,9 @@ const { NODE_ENV = 'production' } = process.env;
 // declare const module: any;
 
 async function bootstrap() {
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+        logger: ['error'],
+    });
     const express = app.getHttpAdapter().getInstance();
 
     // 静态资源
@@ -24,7 +26,7 @@ async function bootstrap() {
     // 静态模板
     const views = join(__dirname, '..', 'views');
     // 配置njk引擎
-    nunjucks.configure(views, {express});
+    nunjucks.configure(views, { express });
     app.useStaticAssets(assets);
     app.setBaseViewsDir(views);
     app.setViewEngine('njk');
@@ -34,7 +36,7 @@ async function bootstrap() {
 
     // 解析请求体结构
     app.use(Express.json());
-    app.use(Express.urlencoded({extended: true}));
+    app.use(Express.urlencoded({ extended: true }));
 
     // 使用logger中间件监听所有路由Request
     app.use(logger);
@@ -49,7 +51,8 @@ async function bootstrap() {
     const port = envConfig.port;
     await app.listen(port);
     console.log(chalk.green(` ===== app on ${port} now ===== `));
-    console.log(chalk.green('[ENV]: 运行配置 '), envConfig);
+    if (!envConfig.silent && !envConfig.configSilent)
+        console.log(chalk.green('[ENV]: 运行配置 '), envConfig);
     console.log(chalk.green('[ENV]: 运行模式 '), chalk.yellow(NODE_ENV));
     console.log(chalk.green(` ===== app on ${port} now ===== `));
 

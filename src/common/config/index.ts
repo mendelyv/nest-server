@@ -7,11 +7,9 @@ import * as chalk from 'chalk';
 import { EnvironmentConfig } from './environment.config';
 
 const TAG = '[ENV]';
-console.log(chalk.green(`${TAG}: prepare check environment config...`));
 
 // 解析配置文件
 const envFilePath = path.resolve(`env.${process.env.NODE_ENV.toLocaleLowerCase()}.yaml`);
-console.log(chalk.green(`${TAG}: enviroment config file path`), `${envFilePath}`);
 const _envConfig = yamlLoad(readFileSync(envFilePath, 'utf-8'));
 if (!_envConfig) {
     const err = chalk.red(`${TAG}: environment file is empty`) + `filePath: ${envFilePath}`;
@@ -27,12 +25,18 @@ export const envConfig = plainToClass(EnvironmentConfig, _envConfig, {
 });
 // console.log("envConfig: ", envConfig);
 
+if (!envConfig.silent) {
+    console.log(chalk.green(`${TAG}: prepare check environment config...`));
+    console.log(chalk.green(`${TAG}: enviroment config file path`), `${envFilePath}`);
+}
+
 const errors = validateSync(envConfig);
 if (errors.length > 0) {
     console.log(chalk.red(formatValidationError(errors)));
     throw new Error(chalk.red(`${TAG}: check environment failed`));
 } else {
-    console.log(chalk.green(`${TAG}: check environment succeed, start server...`));
+    if (!envConfig.silent)
+        console.log(chalk.green(`${TAG}: check environment succeed, start server...`));
 }
 
 /**

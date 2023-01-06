@@ -8,6 +8,15 @@ import { RedisConfig } from './redis.config';
 /** 运行端口 */
 export const port = '7788';
 
+/** 静默启动 */
+export const silent = true;
+
+/** 静默启动配置 */
+export const configSilent = false;
+
+/** 静默启动表实例列表 */
+export const databaseSilent = false;
+
 export const redisConfig: RedisConfig = {
     enable: true,
     host: '127.0.0.1',
@@ -52,5 +61,5 @@ export const excelExportConfig: ExcelExportConfig = {
  * 设置配置文件默认值
  */
 export function setDefault(value: TransformFnParams, rollback: unknown) {
-    return value.value ? value.value : rollback;
+    return value.value != null ? value.value : rollback;
 }
