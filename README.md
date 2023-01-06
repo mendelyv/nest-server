@@ -32,9 +32,9 @@ src
     └── oss
 ```
 ## 📄 环境配置 
-根目录下创建env.{NODE_ENV}.yaml文件，变量名同env-config.entity.ts
-配置遵循覆盖原则，default配置为最低覆盖等级，如在yaml文件中配置，则以手动配置为准
+根目录下创建env.{NODE_ENV}.yaml文件，变量名同environment.config.ts
 
+配置遵循覆盖原则，default.config.ts为最低覆盖等级，如在yaml文件中配置，则以手动配置为准
 
 NODE_ENV配置详见package.json
 
@@ -118,8 +118,14 @@ https://github.com/ZenSoftware/bundled-nest
 pkg打包：\
 https://juejin.cn/post/6855129005730775053
 
+systemd：\
+https://www.cnblogs.com/hsyw/p/15054079.html \
+https://www.cnblogs.com/KrillLiszt/p/16192522.html \
+https://www.cnblogs.com/hongdada/p/9700900.html
+
 
 [sequelize herf]: https://sequelize.org
 [aliOSS herf]: https://help.aliyun.com/document_detail/32070.html
 [Nestjs OpenAPI herf]: https://docs.nestjs.cn/8/openapi
 [pkg herf]: https://github.com/vercel/pkg
+[jest herf]: http://github.yanhaixiang.com/jest-tutorial
