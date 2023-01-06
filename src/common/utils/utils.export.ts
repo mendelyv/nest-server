@@ -6,9 +6,15 @@ import { TimeUtils } from './utils.time';
 
 export class HeaderType {
     /** 列宽设置 */
-    columnWidth?: number = envConfig.excel.column;
+    columnWidth: number;
     /** 列名 */
     name: string;
+
+
+    constructor(name: string, columnWidth?: number) {
+        this.name = name;
+        this.columnWidth = columnWidth || envConfig.excel.column;
+    }
 }
 
 export class GeneralExcelDto {
@@ -96,6 +102,7 @@ export class ExportUtils {
 
     // 导出buffer
     static async generalExcelBuffer(dto: GeneralExcelDto): Promise<ExcelJs.Buffer> {
+        const config = envConfig.excel;
         // 创建一个文件
         const workbook = new ExcelJs.Workbook();
         workbook.creator = '';
@@ -107,7 +114,7 @@ export class ExportUtils {
         // 创建一个工作组
         const sheet = workbook.addWorksheet(title);
         // 设置默认行高
-        sheet.properties.defaultRowHeight = 20;
+        sheet.properties.defaultRowHeight = config.row;
         // 创建列
         sheet.getRow(1).values = [title + TimeUtils.format_3(new Date())];
         sheet.getRow(2).values = header.map(v => v.name);
@@ -115,10 +122,10 @@ export class ExportUtils {
         header.forEach((v, k) => {
             if (v.columnWidth) sheet.getColumn(k + 1).width = v.columnWidth
         })
-        const colorFont = 'DD303C'; // 字体颜色
-        const colorHeader = '84B9DD'; // 表头背景色
-        const colorBorder = '454545'; // 边框色
-        const colorContent = 'ECECEC'; // 内容填充色
+        const colorFont = config.titleFontColor; // 字体颜色
+        const colorHeader = config.titleBackgroundColor; // 表头背景色
+        const colorBorder = config.borderColor; // 边框色
+        const colorContent = config.contentBackgroundColor; // 内容填充色
         const rowHeader1 = sheet.getRow(1)
         const rowHeader2 = sheet.getRow(2)
         // 合并单元格
@@ -127,8 +134,8 @@ export class ExportUtils {
         rowHeader1.getCell(1).border = { bottom: { style: 'thin' }, right: { style: 'thin' } };
         rowHeader1.getCell(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: colorHeader } };
         // 设置表头高度
-        rowHeader1.height = 35
-        rowHeader2.height = 25
+        rowHeader1.height = config.titleHeight;
+        rowHeader2.height = config.headerHeight;
         rowHeader1.getCell(1).alignment = { vertical: 'middle', horizontal: 'center' };
         rowHeader1.getCell(1).font = { family: 2, bold: true, size: 24, color: { argb: colorFont }, };
         rowHeader2.eachCell(cell => {

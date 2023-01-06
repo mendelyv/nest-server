@@ -38,14 +38,14 @@ export const ossConfig: AliossConfig = {
 
 /** Excel表导出配置 */
 export const excelExportConfig: ExcelExportConfig = {
-    column: 25,
+    column: 15,
     row: 20,
     titleHeight: 35,
     headerHeight: 25,
-    titleFontColor: 'DD303C',
-    titleBackgroundColor: '84B9DD',
-    borderColor: '454545',
-    contentBackgroundColor: 'ECECEC',
+    titleFontColor: null,
+    titleBackgroundColor: null,
+    borderColor: null,
+    contentBackgroundColor: null,
 }
 
 /**
