@@ -17,6 +17,9 @@ export const configSilent = false;
 /** 静默启动表实例列表 */
 export const databaseSilent = false;
 
+/** 进程日志静默 */
+export const logSilent = false;
+
 export const redisConfig: RedisConfig = {
     enable: true,
     host: '127.0.0.1',

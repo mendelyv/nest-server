@@ -34,6 +34,13 @@ export class EnvironmentConfig {
     @IsBoolean()
     readonly databaseSilent: boolean;
 
+    /** 进程日志静默 */
+    @Expose()
+    @Transform((v) => setDefault(v, defaultConfig.logSilent), { toClassOnly: true })
+    @ValidateIf((s) => !s.silent)
+    @IsBoolean()
+    readonly logSilent: boolean;
+
     /** 数据库配置 */
     @Expose()
     @ValidateNested({ each: true })
