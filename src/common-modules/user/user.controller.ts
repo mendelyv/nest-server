@@ -15,7 +15,7 @@ import { ApiUpdateResponse } from "src/common/decorator/api-update-response.deco
 @Controller('api/backend/user')
 @ApiTags('用户')
 @ApiBearerAuth(accessToken)
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class UserController {
 
     @Inject()

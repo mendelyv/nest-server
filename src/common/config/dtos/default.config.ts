@@ -14,9 +14,6 @@ export const silent = true;
 /** 静默启动配置 */
 export const configSilent = false;
 
-/** 静默启动表实例列表 */
-export const databaseSilent = false;
-
 /** 进程日志静默 */
 export const logSilent = false;
 
@@ -36,6 +33,9 @@ export const databaseConfig: DatabaseConfig = {
     password: '12345678',
     database: 'database_name',
     sync: false,
+    silentInitModels: true,
+    log: false,
+    silent: false,
 }
 
 export const ossConfig: AliossConfig = {

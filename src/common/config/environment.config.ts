@@ -27,13 +27,6 @@ export class EnvironmentConfig {
     @IsBoolean()
     readonly configSilent: boolean;
 
-    /** 静默启动表实例列表 */
-    @Expose()
-    @Transform((v) => setDefault(v, defaultConfig.databaseSilent), { toClassOnly: true })
-    @ValidateIf((s) => !s.silent)
-    @IsBoolean()
-    readonly databaseSilent: boolean;
-
     /** 进程日志静默 */
     @Expose()
     @Transform((v) => setDefault(v, defaultConfig.logSilent), { toClassOnly: true })

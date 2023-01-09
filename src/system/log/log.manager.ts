@@ -30,7 +30,7 @@ export class ContextTrace {
         readonly path?: string,
         readonly lineNumber?: number,
         readonly columnNumber?: number
-    ) {}
+    ) { }
 }
 
 
@@ -98,51 +98,56 @@ const logger = Log4js.getLogger();
 logger.level = LoggerLevel.TRACE;
 
 export class LogManager {
-  static trace(...args) {
-    logger.trace(LogManager.getStackTrace(), ...args);
-  }
+    static trace(...args) {
+        logger.trace(LogManager.getStackTrace(), ...args);
+    }
 
-  static debug(...args) {
-    logger.debug(LogManager.getStackTrace(), ...args);
-  }
+    static debug(...args) {
+        logger.debug(LogManager.getStackTrace(), ...args);
+    }
 
-  static log(...args) {
-    logger.info(LogManager.getStackTrace(), ...args);
-  }
+    static log(...args) {
+        logger.info(LogManager.getStackTrace(), ...args);
+    }
 
-  static info(...args) {
-    logger.info(LogManager.getStackTrace(), ...args);
-  }
+    static info(...args) {
+        logger.info(LogManager.getStackTrace(), ...args);
+    }
 
-  static warn(...args) {
-    logger.warn(LogManager.getStackTrace(), ...args);
-  }
+    static warn(...args) {
+        logger.warn(LogManager.getStackTrace(), ...args);
+    }
 
-  static warning(...args) {
-    logger.warn(LogManager.getStackTrace(), ...args);
-  }
+    static warning(...args) {
+        logger.warn(LogManager.getStackTrace(), ...args);
+    }
 
-  static error(...args) {
-    logger.error(LogManager.getStackTrace(), ...args);
-  }
+    static error(...args) {
+        logger.error(LogManager.getStackTrace(), ...args);
+    }
 
-  static fatal(...args) {
-    logger.fatal(LogManager.getStackTrace(), ...args);
-  }
+    static fatal(...args) {
+        logger.fatal(LogManager.getStackTrace(), ...args);
+    }
 
-  static access(...args) {
-    const loggerCustom = Log4js.getLogger('http');
-    loggerCustom.info(LogManager.getStackTrace(), ...args);
-  }
+    static access(...args) {
+        const loggerCustom = Log4js.getLogger('http');
+        loggerCustom.info(LogManager.getStackTrace(), ...args);
+    }
 
-  static getStackTrace(deep: number = 2): string {
-    const stackList: StackTrace.StackFrame[] = StackTrace.getSync();
-    const stackInfo: StackTrace.StackFrame = stackList[deep];
+    static SQL(...args) {
+        const logger = Log4js.getLogger('SQL');
+        logger.info('\n', ...args);
+    }
 
-    const lineNumber: number = stackInfo.lineNumber;
-    const columnNumber: number = stackInfo.columnNumber;
-    const fileName: string = stackInfo.fileName;
-    const basename: string = Path.basename(fileName);
-    return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`;
-  }
+    static getStackTrace(deep: number = 2): string {
+        const stackList: StackTrace.StackFrame[] = StackTrace.getSync();
+        const stackInfo: StackTrace.StackFrame = stackList[deep];
+
+        const lineNumber: number = stackInfo.lineNumber;
+        const columnNumber: number = stackInfo.columnNumber;
+        const fileName: string = stackInfo.fileName;
+        const basename: string = Path.basename(fileName);
+        return `${basename}(line: ${lineNumber}, column: ${columnNumber}): \n`;
+    }
 }

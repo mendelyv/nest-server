@@ -1,5 +1,6 @@
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import { IsBoolean, IsIP, IsPort, IsString, ValidateIf } from "class-validator";
+import { databaseConfig, setDefault } from "./default.config";
 
 /**
  * @class: DatabaseConfig
@@ -43,4 +44,25 @@ export class DatabaseConfig {
     @ValidateIf((s) => s.enable)
     @IsBoolean()
     sync: boolean;
+
+    /** 静默Sequelize添加表实例 */
+    @Expose()
+    @ValidateIf((s) => s.enable)
+    @Transform((v) => setDefault(v, databaseConfig.silentInitModels))
+    @IsBoolean()
+    silentInitModels: boolean;
+
+    /** Sequelize日志落盘 */
+    @Expose()
+    @ValidateIf((s) => s.enable)
+    @Transform((v) => setDefault(v, databaseConfig.log))
+    @IsBoolean()
+    log: boolean;
+
+    /** Sequelize日志静默 */
+    @Expose()
+    @ValidateIf((s) => s.enable)
+    @Transform((v) => setDefault(v, databaseConfig.silent))
+    @IsBoolean()
+    silent: boolean;
 }

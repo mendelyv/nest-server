@@ -42,6 +42,15 @@ const log4jsConfig = {
             level: 'ERROR',
             appender: 'errorFile',
         },
+        SQL: {
+            type: 'dateFile',
+            filename: `${baseLogPath}/SQLs/SQL.log`,
+            alwaysIncludePattern: true,
+            pattern: 'yyyy-MM-dd',
+            daysToKeep: 60,
+            numBackups: 3,
+            keepFileExt: true,
+        }
     },
     categories: {
         default: {
@@ -53,5 +62,8 @@ const log4jsConfig = {
 }
 if (env.NODE_ENV == 'development' && !envConfig.silent && !envConfig.logSilent) {
     log4jsConfig.categories.default.appenders.push('console');
+}
+if (envConfig.database.log) {
+    log4jsConfig.categories['SQL'] = { appenders: ['SQL'], level: 'DEBUG' };
 }
 export default log4jsConfig;
