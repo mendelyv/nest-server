@@ -21,6 +21,9 @@ async function bootstrap() {
     });
     const express = app.getHttpAdapter().getInstance();
 
+    // CORS
+    app.enableCors();
+
     // 静态资源
     const assets = join(__dirname, '..', 'public');
     // 静态模板
