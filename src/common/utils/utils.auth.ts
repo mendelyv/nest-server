@@ -32,7 +32,9 @@ export class AuthUtils {
     static decodeToken(token: string) {
         if(token == null) return null;
         const regex = /((?:\.?(?:[A-Za-z0-9-_]+)){3})$/gm;
-        token = token.match(regex)[0];
+        const matchRes = token.match(regex);
+        if(!matchRes) return null;
+        token = matchRes[0];
         let result: any;
         Jwt.verify(
             token,
