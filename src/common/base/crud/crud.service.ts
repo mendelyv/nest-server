@@ -1,11 +1,11 @@
-import { DestroyOptions, FindAndCountOptions, Op, UpdateOptions } from "sequelize";
+import { Attributes, CreationAttributes, DestroyOptions, FindAndCountOptions, Op, UpdateOptions } from "sequelize";
 import { Model } from "sequelize-typescript";
+import { Col, Fn, Literal } from "sequelize/types/utils";
 import { BaseFindAllQuery } from "../http/base.dto";
 import { BaseService } from "../service/base.service";
-import { Type } from "@nestjs/common";
 
-export abstract class CRUDService<T extends Model<T>> extends BaseService<T> {
-    protected abstract readonly table: Type<T>;
+export abstract class CRUDService<T extends Model<T>> extends BaseService {
+    protected abstract readonly table: typeof Model<T>;
     async findAll(packet?: BaseFindAllQuery, options?: FindAndCountOptions<T>): Promise<{ rows: T[]; count: number }> {
         const page = packet ? (packet.page || null) : null;
         const limit = packet ? (packet.limit || null) : null;
@@ -22,13 +22,13 @@ export abstract class CRUDService<T extends Model<T>> extends BaseService<T> {
         let data = await (this.table as any).findAndCountAll(_options);
         return data;
     }
-    async findOne(id: string): Promise<T | null> {
+    async findOne(id: string | number): Promise<T | null> {
         return await (this.table as any).findByPk(id);
     }
-    async create(packet: any): Promise<T> {
+    async create(packet: CreationAttributes<T>): Promise<T> {
         return await (this.table as any).create(packet);
     }
-    async update(id: string, packet: any): Promise<[affectedCount: number]> {
+    async update(id: string, packet: { [key in keyof Attributes<T>]?: Attributes<T>[key] | Fn | Col | Literal }): Promise<[affectedCount: number]> {
         let options: UpdateOptions = {
             where: { id: id },
         }
