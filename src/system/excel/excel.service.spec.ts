@@ -2,7 +2,7 @@ import { Test } from "@nestjs/testing"
 import { INestApplication } from "@nestjs/common"
 import { ExcelService } from "./excel.service"
 import { DatabaseManager } from "../database/database.manager"
-import { DataBaseModule } from "../database/database.module"
+import { DatabaseModule } from "../database/database.module"
 
 describe("exceljs导出测试", () => {
     let s_excel: ExcelService
@@ -10,7 +10,7 @@ describe("exceljs导出测试", () => {
     let dbm: DatabaseManager
     beforeAll(async () => {
         const module = await Test.createTestingModule({
-            imports: [DataBaseModule.register()],
+            imports: [DatabaseModule.register()],
             providers: [ExcelService],
         }).compile()
         app = module.createNestApplication()
