@@ -1,36 +1,50 @@
-import { Injectable } from "@nestjs/common";
-import * as xlsx from "xlsx";
-import * as fs from "fs";
-import { Readable } from "stream";
+import { Injectable } from '@nestjs/common';
+import * as ExcelJS from 'exceljs';
+import { existsSync, mkdirSync } from 'fs';
+import { ExcelExportOptions } from './dtos/excel.dto';
 
 @Injectable()
 export class ExcelService {
-    private add(datas: any[], filePath: string, skipHeader: boolean) {
-        return new Promise<boolean>(resolve => {
-            const jsonWorkSheet = xlsx.utils.json_to_sheet(datas, { skipHeader: skipHeader });
-            const stream = xlsx.stream.to_csv(jsonWorkSheet) as Readable;
-            const writeS = fs.createWriteStream(filePath);
-            stream.pipe(writeS);
-            stream.on('end', () => {
-                stream.destroy();
-                resolve(true);
-            });
-            stream.on('error', () => {
-                stream.destroy();
-                resolve(false);
-            });
+    async exportMassData<T>(options: ExcelExportOptions<T>) {
+        this.checkAndMakeDirectory(options.filename);
+        const workbook = new ExcelJS.stream.xlsx.WorkbookWriter({
+            filename: options.filename,
         });
+        const sheet = workbook.addWorksheet(options.sheetPrefix + '1');
+        // @ts-ignore
+        let maxRow: number = await options.table.count(options.options);
+        let offset = options.offset;
+        let total = 0;
+        for (; maxRow > 0; ) {
+            options.options.offset = offset;
+            options.options.limit = options.stepCount;
+            // @ts-ignore
+            let datas = await options.table.findAll(options.options);
+            offset += options.stepCount;
+            maxRow -= options.stepCount;
+            total += options.stepCount;
+            for (let i = 0; i < datas.length; i++) {
+                let data = datas[i];
+                let rows = [];
+                for (let j = 0; j < options.fields.length; j++)
+                    // @ts-ignore
+                    rows.push(data[options.fields[j]]);
+                sheet.addRow(rows).commit();
+            }
+            if (options.maxCount > 0 && total >= options.maxCount) break;
+        }
+        sheet.commit();
+        await workbook.commit();
     }
 
-
-    async generate(datas: any[], filePath: string) {
-        let chunk = []
-        let num = 1000;
-        let flag = false;
-        while (datas.length > 0) {
-            chunk = datas.splice(0, num)
-            await this.add(chunk, filePath, flag);
-            flag = true
+    private checkAndMakeDirectory(path: string) {
+        let p = path.split('/');
+        p.pop();
+        let _p = '';
+        for (let i = 0; i < p.length; i++) {
+            _p += p[i] + '/';
+            if (!existsSync(_p)) mkdirSync(_p);
         }
     }
 }
+
